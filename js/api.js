@@ -2,14 +2,25 @@
  * Anthropic API 事件生成
  */
 window.GameAPI = {
+  // API Key 存在記憶體中（不存 localStorage）
+  apiKey: '',
+
+  setApiKey: function (key) {
+    this.apiKey = (key || '').trim();
+  },
+
+  hasApiKey: function () {
+    return this.apiKey.length > 0;
+  },
+
   /**
    * 呼叫 Claude API 生成遊戲事件
-   * @param {string} job - 職業 ID (support / trading / compliance)
-   * @param {number} day - 當前天數
-   * @param {object} stats - { stress, performance, bossApproval }
-   * @returns {Promise<object>} 事件物件
    */
   fetchEvent: async function (job, day, stats) {
+    if (!this.hasApiKey()) {
+      throw new Error('No API key');
+    }
+
     var jobName = window.JOBS[job].name;
 
     var prompt =
@@ -21,7 +32,8 @@ window.GameAPI = {
       '- 績效：' + stats.performance + '/100\n' +
       '- 老闆好感：' + stats.bossApproval + '/100\n\n' +
       '生成一個' + jobName + '會遇到的荒謬但真實的職場事件。要幽默、有 crypto 圈的梗，但也要有深度。\n' +
-      '根據當前數值狀態來調整事件難度和風格：壓力高時給一些喘息機會，績效低時給翻盤機會。\n\n' +
+      '根據當前數值狀態來調整事件難度和風格：壓力高時給一些喘息機會，績效低時給翻盤機會。\n' +
+      '每次生成完全不同的事件，不要重複之前的主題。\n\n' +
       '請用以下 JSON 格式回應（只回傳 JSON，不要其他文字）：\n' +
       '{\n' +
       '  "title": "事件標題（簡短有梗，10字內）",\n' +
@@ -43,6 +55,7 @@ window.GameAPI = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': this.apiKey,
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true',
       },
@@ -60,7 +73,6 @@ window.GameAPI = {
     var data = await response.json();
     var text = data.content[0].text;
 
-    // Extract JSON (may be wrapped in markdown code block)
     var jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error('No JSON found in response');
 

@@ -242,10 +242,25 @@ function OutcomeCard({ choice, onNext }) {
 
 // ==================== TitleScreen ====================
 function TitleScreen({ onSelectJob }) {
+  const [apiKey, setApiKeyState] = useState(window.GameAPI.apiKey || '');
+  const [showKey, setShowKey] = useState(false);
+
+  const handleApiKeyChange = (e) => {
+    var val = e.target.value;
+    setApiKeyState(val);
+    window.GameAPI.setApiKey(val);
+  };
+
+  const handleSelectJob = (jobId) => {
+    window.GameAPI.setApiKey(apiKey);
+    window.EventTracker.reset();
+    onSelectJob(jobId);
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ background: '#0B0E11' }}>
       {/* Header */}
-      <div className="anim-slideDown text-center mb-10">
+      <div className="anim-slideDown text-center mb-8">
         <div className="flex items-center justify-center gap-3 mb-3">
           <svg width="40" height="40" viewBox="0 0 126 126" fill="none">
             <path d="M63 0L77.5 14.5L63 29L48.5 14.5L63 0Z" fill="#F0B90B"/>
@@ -264,12 +279,42 @@ function TitleScreen({ onSelectJob }) {
         <p className="text-lg" style={{ color: '#848E9C' }}>在 crypto 最瘋狂的公司裡存活 30 天</p>
       </div>
 
+      {/* API Key Input */}
+      <div className="anim-fadeIn bn-card p-4 max-w-md w-full mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-xs font-semibold" style={{ color: '#F0B90B' }}>🔑 Anthropic API Key（選填）</label>
+          <span className="text-xs" style={{ color: '#5E6673' }}>
+            {apiKey ? '✅ 已設定 → AI 動態事件' : '未設定 → 使用預設事件'}
+          </span>
+        </div>
+        <div className="flex gap-2">
+          <input
+            type={showKey ? 'text' : 'password'}
+            value={apiKey}
+            onChange={handleApiKeyChange}
+            placeholder="sk-ant-... (不填也能玩)"
+            className="flex-1 text-sm px-3 py-2 rounded-lg outline-none"
+            style={{ background: '#2B3139', border: '1px solid #363C45', color: '#EAECEF' }}
+          />
+          <button
+            onClick={() => setShowKey(!showKey)}
+            className="px-3 py-2 rounded-lg text-xs"
+            style={{ background: '#2B3139', border: '1px solid #363C45', color: '#848E9C' }}
+          >
+            {showKey ? '🙈' : '👁️'}
+          </button>
+        </div>
+        <p className="text-xs mt-2" style={{ color: '#5E6673' }}>
+          填入 API Key 可啟用 AI 動態生成事件，每次遊玩都不同。不填則使用 36 個精選預設事件。
+        </p>
+      </div>
+
       {/* Job Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-4xl w-full">
         {Object.values(JOBS).map((job, i) => (
           <button
             key={job.id}
-            onClick={() => onSelectJob(job.id)}
+            onClick={() => handleSelectJob(job.id)}
             className={'card-enter-' + (i+1) + ' btn-hover bn-card-hover p-6 text-left cursor-pointer group'}
           >
             <div className="flex items-center gap-3 mb-3">
@@ -293,7 +338,7 @@ function TitleScreen({ onSelectJob }) {
       </div>
 
       {/* Footer hint */}
-      <div className="mt-10 text-center" style={{ color: '#5E6673' }}>
+      <div className="mt-8 text-center" style={{ color: '#5E6673' }}>
         <p className="text-sm">存活 30 天且績效 ≥ 70 即可升職</p>
         <p className="text-xs mt-1">壓力爆表 (≥95) 或老闆好感歸零 (≤10) 就 Game Over</p>
       </div>
