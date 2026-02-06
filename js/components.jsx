@@ -338,16 +338,7 @@ function TitleScreen({ onSelectJob }) {
       {/* Header */}
       <div className="anim-slideDown text-center mb-10">
         <div className="flex items-center justify-center gap-3 mb-3">
-          <svg width="40" height="40" viewBox="0 0 126 126" fill="none">
-            <path d="M63 0L77.5 14.5L63 29L48.5 14.5L63 0Z" fill="#F0B90B"/>
-            <path d="M28 35L42.5 49.5L28 64L13.5 49.5L28 35Z" fill="#F0B90B"/>
-            <path d="M98 35L112.5 49.5L98 64L83.5 49.5L98 35Z" fill="#F0B90B"/>
-            <path d="M63 35L77.5 49.5L63 64L48.5 49.5L63 35Z" fill="#F0B90B"/>
-            <path d="M28 70L42.5 84.5L28 99L13.5 84.5L28 70Z" fill="#F0B90B"/>
-            <path d="M98 70L112.5 84.5L98 99L83.5 84.5L98 70Z" fill="#F0B90B"/>
-            <path d="M63 70L77.5 84.5L63 99L48.5 84.5L63 70Z" fill="#F0B90B"/>
-            <path d="M63 105L77.5 119.5L63 126L48.5 112L63 105Z" fill="#F0B90B"/>
-          </svg>
+          <img src="binance-logo.svg" alt="Binance" width="48" height="48" />
           <h1 className="text-4xl md:text-5xl font-bold" style={{ color: '#EAECEF' }}>
             <span style={{ color: '#F0B90B' }}>Binance</span> 員工模擬器
           </h1>
