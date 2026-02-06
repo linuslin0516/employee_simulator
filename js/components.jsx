@@ -240,6 +240,92 @@ function OutcomeCard({ choice, onNext }) {
   );
 }
 
+// ==================== Confirm Modal ====================
+function ConfirmModal({ message, onConfirm, onCancel }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.7)' }}>
+      <div className="anim-fadeIn bn-card p-6 max-w-sm w-full text-center">
+        <p className="text-base mb-5" style={{ color: '#EAECEF' }}>{message}</p>
+        <div className="flex gap-3 justify-center">
+          <button onClick={onCancel} className="px-6 py-2 rounded-lg text-sm font-medium"
+            style={{ background: '#2B3139', color: '#848E9C', border: '1px solid #363C45' }}>
+            繼續遊戲
+          </button>
+          <button onClick={onConfirm} className="px-6 py-2 rounded-lg text-sm font-medium"
+            style={{ background: '#F6465D', color: '#fff' }}>
+            確定離開
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ==================== About Page ====================
+function AboutPage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#0B0E11' }}>
+      <div className="anim-fadeIn max-w-2xl w-full">
+        <div className="bn-card p-6 md:p-8">
+          <h1 className="text-2xl font-bold mb-6" style={{ color: '#F0B90B' }}>📖 遊戲說明</h1>
+
+          <div className="space-y-5 text-sm" style={{ color: '#EAECEF' }}>
+            <section>
+              <h2 className="font-semibold mb-2" style={{ color: '#F0B90B' }}>遊戲目標</h2>
+              <p style={{ color: '#848E9C' }}>
+                你是幣安的新員工，要在這個瘋狂的 crypto 公司裡存活 <strong style={{ color: '#EAECEF' }}>30 天</strong>。
+                每天都會遇到各種荒謬但真實的職場事件，你的每個選擇都會影響三項數值。
+              </p>
+            </section>
+
+            <section>
+              <h2 className="font-semibold mb-2" style={{ color: '#F0B90B' }}>三項數值</h2>
+              <div className="space-y-2" style={{ color: '#848E9C' }}>
+                <div><span style={{ color: '#F6465D' }}>😰 壓力值</span> — 太高會崩潰離職（≥ 95 就 Game Over）</div>
+                <div><span style={{ color: '#0ECB81' }}>📈 績效</span> — 升職的關鍵（30天結束時 ≥ 70 才能升職）</div>
+                <div><span style={{ color: '#3b82f6' }}>👔 老闆好感</span> — 太低會被開除（≤ 10 就 Game Over）</div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="font-semibold mb-2" style={{ color: '#F0B90B' }}>三種職業</h2>
+              <div className="space-y-2" style={{ color: '#848E9C' }}>
+                <div>🎧 <strong style={{ color: '#EAECEF' }}>客服專員</strong> — 普通難度，面對各種用戶的奇葩問題</div>
+                <div>📊 <strong style={{ color: '#EAECEF' }}>交易監控員</strong> — 困難難度，盯盤抓異常交易</div>
+                <div>⚖️ <strong style={{ color: '#EAECEF' }}>合規審查官</strong> — 地獄難度，跟各國監管機構周旋</div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="font-semibold mb-2" style={{ color: '#F0B90B' }}>小技巧</h2>
+              <div className="space-y-2" style={{ color: '#848E9C' }}>
+                <div>☕ 每天有 3 杯咖啡，喝咖啡可以降低壓力 -8</div>
+                <div>👀 點「偷看」按鈕可以看到精確數值</div>
+                <div>💰 表現好會加薪和獲得 BNB 獎勵</div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="font-semibold mb-2" style={{ color: '#F0B90B' }}>結局</h2>
+              <div className="space-y-2" style={{ color: '#848E9C' }}>
+                <div>🏆 <strong style={{ color: '#0ECB81' }}>升職</strong> — 存活 30 天且績效 ≥ 70</div>
+                <div>🔥 <strong style={{ color: '#F6465D' }}>崩潰離職</strong> — 壓力值 ≥ 95</div>
+                <div>💀 <strong style={{ color: '#F6465D' }}>被開除</strong> — 老闆好感 ≤ 10</div>
+              </div>
+            </section>
+          </div>
+
+          <div className="mt-8">
+            <button onClick={() => window.navigate('')} className="bn-btn-primary w-full text-sm">
+              ← 回到首頁
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ==================== TitleScreen ====================
 function TitleScreen({ onSelectJob }) {
   const handleSelectJob = (jobId) => {
@@ -297,10 +383,16 @@ function TitleScreen({ onSelectJob }) {
         ))}
       </div>
 
-      {/* Footer hint */}
-      <div className="mt-8 text-center" style={{ color: '#5E6673' }}>
-        <p className="text-sm">存活 30 天且績效 ≥ 70 即可升職</p>
-        <p className="text-xs mt-1">壓力爆表 (≥95) 或老闆好感歸零 (≤10) 就 Game Over</p>
+      {/* Footer buttons */}
+      <div className="mt-8 flex items-center gap-4">
+        <button onClick={() => window.navigate('about')}
+          className="text-sm font-medium px-5 py-2 rounded-lg"
+          style={{ background: '#1E2329', border: '1px solid #2B3139', color: '#848E9C' }}>
+          📖 遊戲說明
+        </button>
+      </div>
+      <div className="mt-4 text-center" style={{ color: '#5E6673' }}>
+        <p className="text-xs">存活 30 天且績效 ≥ 70 即可升職 | 壓力爆表或被開除就 Game Over</p>
       </div>
     </div>
   );
@@ -404,6 +496,7 @@ function GameScreen({ job, onRestart }) {
   const [notification, setNotification] = useState(null);
   const [eventLog, setEventLog] = useState([]);
   const [dailyFlavor, setDailyFlavor] = useState('');
+  const [showQuitModal, setShowQuitModal] = useState(false);
   const eventKeyRef = useRef(0);
 
   const jobData = JOBS[job];
@@ -513,6 +606,15 @@ function GameScreen({ job, onRestart }) {
 
   return (
     <div className="min-h-screen" style={{ background: '#0B0E11' }}>
+      {/* Quit Confirmation Modal */}
+      {showQuitModal && (
+        <ConfirmModal
+          message={'確定要放棄目前的遊戲回到主畫面嗎？（進度不會保存）'}
+          onConfirm={onRestart}
+          onCancel={() => setShowQuitModal(false)}
+        />
+      )}
+
       {/* Notification Toast */}
       {notification && (
         <NotificationToast
@@ -541,11 +643,12 @@ function GameScreen({ job, onRestart }) {
                 {showValues ? '🙈 隱藏' : '👀 偷看'}
               </button>
               <button
-                onClick={onRestart}
+                onClick={() => setShowQuitModal(true)}
                 className="btn-hover text-xs rounded-lg px-3 py-1.5 font-medium"
-                style={{ background: '#2B3139', border: '1px solid #2B3139', color: '#848E9C' }}
+                style={{ background: '#2B3139', border: '1px solid #2B3139', color: '#F6465D' }}
+                title="放棄並回到主畫面"
               >
-                🔄
+                🚪 離開
               </button>
             </div>
           </div>
